@@ -2,5 +2,5 @@
 
 Gobang::Gobang()
 {
-
+ printf("mdf");
 }
