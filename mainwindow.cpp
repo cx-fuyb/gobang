@@ -7,19 +7,21 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    /*
-    * 画制棋盘
-    */
-    scan_gobang sg;
-    sg.show();
-    sg.update();
-    /*
-    * 线程启动
-    */
-    sg.start();
+//    /*
+//    * 画制棋盘
+//    */
+//    scan_gobang sg;
+//    sg.show();
+//    sg.update();
+//    /*
+//    * 线程启动
+//    */
+//    sg.start();
 
     /* 创建网络 */
     Gobang_Network gn;
+
+    Gobang gb(&gn);
 
     for (;;) {
         QThread::sleep(1);
