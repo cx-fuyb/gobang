@@ -1,14 +1,15 @@
 #ifndef GOBANG_H
 #define GOBANG_H
-
-#include "pawn.h"
+#include <QWidget>
+#include <QPainter>
+#include <stdio.h>
 
 class Gobang
 {
 public:
     Gobang();
 private:
-    Pawn pawn;
+
 };
 
 #endif // GOBANG_H
