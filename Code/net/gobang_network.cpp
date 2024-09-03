@@ -14,7 +14,7 @@ Gobang_Network::Gobang_Network()
 void Gobang_Network::run(){
 
     for (;;) {
-        log("i am network thread");
+        //log("%d", width());
         msleep(100);
     }
 }
