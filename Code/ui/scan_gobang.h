@@ -1,31 +1,62 @@
 #ifndef SCAN_GOBANG_H
 #define SCAN_GOBANG_H
 
-#include <iostream>
-#include <stdio.h>
-using namespace std;
+#include <QMainWindow>
 #include <QWidget>
 #include <QPainter>
-#include "mainwindow.h"
-/*
-* 多线程
-*/
-#include <QThread>
+#include <QMouseEvent>
 
-class scan_gobang : public QThread, public QWidget
+using namespace std;
+
+enum ChessType
 {
+    ChessNull = 0,
+    Chessblack = 1,
+    Chesswhite = -1,
+};
+
+namespace Ui {
+class scan_gobang;
+}
+
+class scan_gobang : public QMainWindow
+{
+    Q_OBJECT
+
 public:
-    scan_gobang(QWidget *parent = 0);
-protected:
-    void run();
+    explicit scan_gobang(QWidget *parent = nullptr);
+    ~scan_gobang();
+
+public:
+    void draw_chess(char x,char y, char color);
+    void draw_chessboard();
+    void clearchess();
+    void update_chess();
+public:
+    void mousePressEvent(QMouseEvent* event); //鼠标击发响应函数（左右键，单双击）
+    // void mouseMoveEvent(QMouseEvent* event); //鼠标移动响应函数
+    // void mouseReleaseEvent(QMouseEvent* event); //鼠标释放响应函数（左右键，单双击）
+
+public:
+    /*
+    重写绘图事件，虚函数
+    如果在绘图窗口绘图，必须放在绘图事件里实现
+    绘图事件内部自动调用，窗口需要重建的时候（状态发生改变）
+    */
+    void paintEvent(QPaintEvent*); //Qt所有的绘制都只能在此函数中完成
 
 private:
-    void draw_chess();
-    void paintEvent(QPaintEvent *event);
-    const int SIZE=20;
-    const int WIDTH=40;
-    const int x=20,y=20;
+    Ui::scan_gobang *ui;
+    #define SIZE 10
+    #define MAXWidget 500
+    #define MAXheight 500
+    ChessType Chess_Type;
+    char chess[SIZE][SIZE];
+    int WIDTH=40;
+    int x=20,y=20;
     QPainter *paint;
 };
+
+
 
 #endif // SCAN_GOBANG_H

@@ -7,8 +7,16 @@ MainWindow *w;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    w = new MainWindow();
-    w->show();
+
+    /* ´´½¨ÍøÂç */
+    Gobang_Network gn;
+
+    Gobang gb(&gn);
+
+//    w = new MainWindow();
+//    w->show();
+//    scan_gobang w1;
+//    w1.show();
 
     return a.exec();
 }
