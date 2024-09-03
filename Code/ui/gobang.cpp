@@ -1,7 +1,7 @@
 #include "gobang.h"
 
-Gobang::Gobang()
+Gobang::Gobang(Gobang_Network *gn)
 {
-  printf("mdf");
-  printf("mdf");
+    this->g_network = gn;
+    printf("mdf");
 }

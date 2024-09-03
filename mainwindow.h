@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <Code/ui/gobang.h>
 #include "Code/net/gobang_network.h"
 
 namespace Ui {
