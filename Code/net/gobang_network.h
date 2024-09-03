@@ -6,6 +6,8 @@
 #include <QTcpServer>
 #include <QTcpSocket>
 
+#include <QGridLayout>
+
 #define log(fmt,...)    qDebug("\e[42m[%s] %s:%d\e[0m--"#fmt"", __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define err(fmt,...)    qDebug("\e[41m[%s] %s:%d\e[0m--"#fmt"", __FILE__, __FUNCTION__, __LINE__, ##__VA_ARGS__)
 

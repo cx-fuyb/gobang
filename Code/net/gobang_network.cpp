@@ -25,10 +25,15 @@ Gobang_Network::Gobang_Network()
 void Gobang_Network::run(){
 
     for (;;) {
+<<<<<<< HEAD
 
         //log("i am network thread");
         sendString("i am network thread");
         msleep(1000);
+=======
+        //log("%d", width());
+        msleep(100);
+>>>>>>> modefei
     }
 }
 

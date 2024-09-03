@@ -18,14 +18,12 @@ MainWindow::MainWindow(QWidget *parent) :
 //    */
 //    sg.start();
 
-    /* 创建网络 */
-    Gobang_Network gn;
 
-    Gobang gb(&gn);
 
-    for (;;) {
-        QThread::sleep(1);
-    }
+//    for (;;) {
+//        log("%d", width());
+//        QThread::sleep(1);
+//    }
 }
 
 
