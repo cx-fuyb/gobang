@@ -6,7 +6,13 @@
 #include <QPainter>
 #include <QMouseEvent>
 
+#include "Code/net/gobang_network.h"
+
 using namespace std;
+
+#define SIZE                10
+#define CHASS_NUM        (SIZE+1)
+#define MIN_WIDTH   1000
 
 enum ChessType
 {
@@ -29,13 +35,14 @@ public:
 
 public:
     void draw_chess(char x,char y, char color);
+    void window_changed();
     void draw_chessboard();
     void clearchess();
     void update_chess();
 public:
     void mousePressEvent(QMouseEvent* event); //鼠标击发响应函数（左右键，单双击）
-    // void mouseMoveEvent(QMouseEvent* event); //鼠标移动响应函数
-    // void mouseReleaseEvent(QMouseEvent* event); //鼠标释放响应函数（左右键，单双击）
+    void mouseMoveEvent(QMouseEvent* event); //鼠标移动响应函数
+    void mouseReleaseEvent(QMouseEvent* event); //鼠标释放响应函数（左右键，单双击）
 
 public:
     /*
@@ -47,13 +54,10 @@ public:
 
 private:
     Ui::scan_gobang *ui;
-    #define SIZE 10
-    #define MAXWidget 500
-    #define MAXheight 500
     ChessType Chess_Type;
-    char chess[SIZE][SIZE];
+    char chess[CHASS_NUM][CHASS_NUM];
     int WIDTH=40;
-    int x=20,y=20;
+    int padding = 20;
     QPainter *paint;
 };
 
