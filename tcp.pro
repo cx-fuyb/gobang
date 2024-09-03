@@ -28,12 +28,16 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     Code/net/gobang_network.cpp \
-    Code/net/tcp.cpp
+    Code/net/tcp.cpp \
+    Code/ui/gobang.cpp \
+    Code/ui/scan_gobang.cpp
 
 HEADERS += \
         mainwindow.h \
     Code/net/gobang_network.h \
-    Code/net/tcp.h
+    Code/net/tcp.h \
+    Code/ui/gobang.h \
+    Code/ui/scan_gobang.h
 
 FORMS += \
         mainwindow.ui
