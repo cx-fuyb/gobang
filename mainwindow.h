@@ -16,7 +16,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-
+public:
+    void draw_chess();
 private:
     Ui::MainWindow *ui;
 };
