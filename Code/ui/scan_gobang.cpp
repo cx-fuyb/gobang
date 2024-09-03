@@ -8,19 +8,22 @@ scan_gobang::scan_gobang(QWidget *parent) :
     ui->setupUi(this);
     paint=new QPainter;
 
+    // åˆå§‹åŒ–æ—¶ç»‘å®šä¿¡å·æ§½è¿æ¥
+    connect(ui->pushButton, &QPushButton::clicked, this, &scan_gobang::on_pushButton_clicked);
+
     this->clearchess();
 }
 
 void scan_gobang::draw_chess(char x,char y, char color)
 {
     if(color == Chessblack) {
-        paint->setBrush(QBrush(Qt::black,Qt::SolidPattern));//Ã«Ë¢£ºÑÕÉ«£¬ÊµÍ¼°¸
+        paint->setBrush(QBrush(Qt::black,Qt::SolidPattern));//æ¯›åˆ·ï¼šé¢œè‰²ï¼Œå®å›¾æ¡ˆ
     }
     else if (color == Chesswhite) {
-        paint->setBrush(QBrush(Qt::white,Qt::SolidPattern));//Ã«Ë¢£ºÑÕÉ«£¬ÊµÍ¼°¸
+        paint->setBrush(QBrush(Qt::white,Qt::SolidPattern));//æ¯›åˆ·ï¼šé¢œè‰²ï¼Œå®å›¾æ¡ˆ
     }
 
-    //»­ÍÖÔ²£ºÖĞĞÄµãX,Y,¿í¶È£¬¸ß¶È
+    //ç”»æ¤­åœ†ï¼šä¸­å¿ƒç‚¹X,Y,å®½åº¦ï¼Œé«˜åº¦
     paint->drawEllipse((this->padding+x*WIDTH-WIDTH/4),(this->padding+y*WIDTH-WIDTH/4),WIDTH/2,WIDTH/2);
 }
 void scan_gobang::update_chess()
@@ -39,7 +42,7 @@ void scan_gobang::update_chess()
 
 void scan_gobang::clearchess() {
     for( int i = 0; i < CHASS_NUM; i++) {
-        for(int j = i; j < CHASS_NUM; j++) {
+        for(int j = 0; j < CHASS_NUM; j++) {
             chess[i][j] = ChessNull;
         }
     }
@@ -47,7 +50,7 @@ void scan_gobang::clearchess() {
 void scan_gobang::paintEvent(QPaintEvent *)
 {
     window_changed();
-    paint->begin(this);//Ö÷´°¿Ú
+    paint->begin(this);//ä¸»çª—å£
     draw_chessboard();
     update_chess();
     //draw_chess(2,2,Chesswhite);
@@ -57,7 +60,7 @@ void scan_gobang::paintEvent(QPaintEvent *)
     //update();
 }
 /*
-* ´°¿Ú´óĞ¡¸Ä±äÏìÓ¦º¯Êı
+* çª—å£å¤§å°æ”¹å˜å“åº”å‡½æ•°
 */
 void scan_gobang::window_changed()
 {
@@ -75,25 +78,29 @@ void scan_gobang::window_changed()
     } else {
         WIDTH =(width()-padding*2) / SIZE;
     }
+    /*
+    * æŒ‰é”®æ›´æ–°
+    */
+    ui->pushButton->setGeometry(QRect(new_width - 300, new_height - 100, 200, 50));
 }
 
 /*
-* »­ÆåÅÌ
+* ç”»æ£‹ç›˜
 */
 void scan_gobang::draw_chessboard()
 {
     /*
-    * ¸Ö±Ê¹¤¾ß£ºÑÕÉ«£¬ÏßºÅ£¬ÊµÏß
+    * é’¢ç¬”å·¥å…·ï¼šé¢œè‰²ï¼Œçº¿å·ï¼Œå®çº¿
     */
     paint->setPen(QPen(Qt::darkGreen,2,Qt::SolidLine));
 
     for(int i=0;i<SIZE+1;i++) {
         /*
-        * »­Ïßº¯Êı£ºx1,y1,x2,y2:»­´Ó(x1,y1)µ½(x2,y2)µÄÏß
+        * ç”»çº¿å‡½æ•°ï¼šx1,y1,x2,y2:ç”»ä»(x1,y1)åˆ°(x2,y2)çš„çº¿
         */
         paint->drawLine(padding,padding+WIDTH*i,padding+WIDTH*(SIZE),padding+WIDTH*i);
     }
-    //»­SIZE+1ÌõÊúÏß
+    //ç”»SIZE+1æ¡ç«–çº¿
     for(int i=0;i<SIZE+1;i++)
     {
         paint->drawLine(padding+WIDTH*i,padding,padding+WIDTH*i,padding+WIDTH*(SIZE));
@@ -102,49 +109,66 @@ void scan_gobang::draw_chessboard()
 
 void scan_gobang::mousePressEvent(QMouseEvent* event)
 {
-
-    /*
-    * »ñÈ¡Êó±êµã»÷Î»ÖÃ
-    * ×ª»»ÎªÆåÅÌ×ø±ê
-    */
+    // è·å–é¼ æ ‡ç‚¹å‡»ä½ç½®
     int mouse_x = event->pos().x();
     int mouse_y = event->pos().y();
-    int width = (padding*2)+(WIDTH*SIZE);
 
-    qDebug("mouse_x:%d,mouse_y:%d",mouse_x, mouse_y);
+    // è®¡ç®—æ£‹ç›˜çš„å®½åº¦
+    int width = WIDTH * SIZE;
 
-    if(mouse_x < padding || mouse_x > width) return;
-    if(mouse_y < padding || mouse_y > width) return;
+    qDebug("mouse_x: %d, mouse_y: %d", mouse_x, mouse_y);
 
-    mouse_x = mouse_x - padding;
-    mouse_y = mouse_y - padding;
+    // æ£€æŸ¥ç‚¹å‡»æ˜¯å¦åœ¨æ£‹ç›˜èŒƒå›´å†…
+    if (mouse_x < padding || mouse_x >= width + padding * 2 || mouse_y < padding || mouse_y >= width + padding * 2 )
+        return;
 
-    /*
-    chess_x * WIDTH - padding < chess_x * WIDTH < chess_x * WIDTH + padding
-    */
-    log("%d", width);
+    // è®¡ç®—ç›¸å¯¹æ£‹ç›˜çš„åæ ‡
+    mouse_x -= padding;
+    mouse_y -= padding;
 
-    int chess_x = (mouse_x) / (width/(SIZE+1));
-    int chess_y = (mouse_y) / (width/(SIZE+1));
-//    if ((mouse_x) % (WIDTH) > WIDTH / 2) {
-        
-//    }
+    // è®¡ç®—æ£‹ç›˜ä¸Šçš„åæ ‡
+    int chess_x = mouse_x / WIDTH;
+    int chess_y = mouse_y / WIDTH;
 
-//    if (chess_x * WIDTH < mouse_x || chess_x * WIDTH + WIDTH < mouse_x)
+    // æ ¹æ®é¼ æ ‡ç‚¹å‡»çš„ä½ç½®è°ƒæ•´æ£‹ç›˜åæ ‡ï¼Œç¡®ä¿æ£‹å­æ”¾ç½®åœ¨æœ€è¿‘çš„æ ¼å­ä¸­å¿ƒ
+    int center_x = (mouse_x % WIDTH) * 2;
+    int center_y = (mouse_y % WIDTH) * 2;
 
-    qDebug("x:%d,y:%d",chess_x, chess_y);
+    if (center_x > WIDTH) {
+        chess_x += 1;
+    }
+    if (center_y > WIDTH) {
+        chess_y += 1;
+    }
 
+    // é™å¹…ï¼Œç¡®ä¿åæ ‡åœ¨æ£‹ç›˜èŒƒå›´å†…
+    chess_x = qBound(0, chess_x, SIZE);
+    chess_y = qBound(0, chess_y, SIZE);
+
+    qDebug("chess_x: %d, chess_y: %d", chess_x, chess_y);
+
+    // æ ‡è®°æ£‹ç›˜ä¸Šçš„ä½ç½®
     chess[chess_x][chess_y] = Chessblack;
     update();
 }
 void scan_gobang::mouseReleaseEvent(QMouseEvent* event)
 {
-    qDebug("Êó±êÒÆ¶¯ÏìÓ¦º¯Êı");
+    qDebug("é¼ æ ‡ç§»åŠ¨å“åº”å‡½æ•°");
+}
+
+void scan_gobang::on_pushButton_clicked()
+{
+    qDebug("æ¸…ç©ºæ£‹ç›˜");
+    /*
+    * æ¸…é™¤æ£‹ç›˜
+    */
+    clearchess();
+    update();
 }
 
 void scan_gobang::mouseMoveEvent(QMouseEvent* event)
 {
-    qDebug("Êó±êÒÆ¶¯ÏìÓ¦º¯Êı");
+    qDebug("é¼ æ ‡ç§»åŠ¨å“åº”å‡½æ•°");
 }
 
 scan_gobang::~scan_gobang()

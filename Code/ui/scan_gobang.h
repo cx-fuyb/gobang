@@ -44,6 +44,9 @@ public:
     void mouseMoveEvent(QMouseEvent* event); //鼠标移动响应函数
     void mouseReleaseEvent(QMouseEvent* event); //鼠标释放响应函数（左右键，单双击）
 
+    // 按钮响应函数
+    void on_pushButton_clicked();
+
 public:
     /*
     重写绘图事件，虚函数
