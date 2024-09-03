@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
     /* 创建网络 */
     Gobang_Network gn;
 
+    Gobang gb(&gn);
+
     for (;;) {
         QThread::sleep(1);
     }
