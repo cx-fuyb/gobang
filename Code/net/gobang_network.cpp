@@ -8,80 +8,49 @@ Gobang_Network::Gobang_Network()
 
     log("start network thread");
 
-    this->tcpSocket = new QTcpSocket(this);
+    /* 连接服务器 */
+    t.linkSever();
 
-    //socket添加信号槽函数
-    connect(tcpSocket,&QTcpSocket::readyRead,
-            this,&Gobang_Network::onReadMessage);
-
-    connect(tcpSocket, &QTcpSocket::connected, this, &Gobang_Network::connected);
-
-    this->linkSever();
-
+    tellOpponent_chassxy(1,1,-1);
     //测试线程
     //this->start();
 }
 
-void Gobang_Network::run(){
+/*
+ * 作用:告诉对方下棋的位置
+ * @x:x坐标
+ * @y:y坐标
+ * @color:颜色数据-1，0，1
+*/
+void Gobang_Network::tellOpponent_chassxy(uint8_t x, uint8_t y, char color)
+{
+    uint8_t *data = new uint8_t(3);
 
-    for (;;) {
+    data[0] = x;
+    data[1] = y;
+    data[2] = (uint8_t)color;
 
-        //log("i am network thread");
-        sendString("i am network thread");
-        msleep(1000);
+    tellOpponent_data(pos, data, 3);
+
+    delete data;
+}
+
+void Gobang_Network::tellOpponent_data(uint8_t fun, uint8_t *data, uint8_t datalen)
+{
+    uint8_t txdata[50];
+
+    /* 帧头 */
+    txdata[0] = 0xf0;
+    txdata[1] = 0x0f;
+
+    /* 功能 */
+    txdata[2] = fun;
+
+    /* 数据 */
+    for (uint8_t i=0; i<datalen; i++) {
+        txdata[3+i] = data[i];
     }
-}
 
-void Gobang_Network::onReadMessage()
-{
-    QByteArray bt;
-    bt.resize(tcpSocket->bytesAvailable());
-    tcpSocket->read(bt.data(),bt.size());
-
-    log("收到数据");
-
-    //打印出数据
-    qDebug()<<bt;
-
-}
-
-void Gobang_Network::onDisplayError(QAbstractSocket::SocketError e)
-{
-    //err();
-    qDebug()<<"SocketError:"<<e<<endl
-               <<tcpSocket->errorString();
-}
-
-uint8_t Gobang_Network::linkSever()
-{
-    //清除所有连接
-    tcpSocket->abort();
-
-    //连接服务端
-    tcpSocket->connectToHost(host, post);
-}
-
-uint8_t Gobang_Network::sendBuff(uint8_t *buff, int len)
-{
-    log("%s---%d", buff, len);
-
-    //tcpSocket->flush();//清空缓冲区
-    tcpSocket->write((const char *)buff, len);
-
-    return 1;
-}
-
-uint8_t Gobang_Network::sendString(QString str)
-{
-
-    QByteArray ba = str.toLatin1(); // must
-    char *u8 = ba.data();
-
-    return this->sendBuff((uint8_t *)u8, ba.length());
-}
-
-void Gobang_Network::connected()
-{
-    qDebug() << "连接成功";
-    tcpSocket->write("Hello from TCP Client!");
+    /* 发送数据 */
+    t.sendBuff(txdata, datalen+3);
 }

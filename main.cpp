@@ -3,7 +3,6 @@
 
 #include "Code/ui/scan_gobang.h"
 
-MainWindow *w;
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -11,12 +10,8 @@ int main(int argc, char *argv[])
     /* 创建网络 */
     Gobang_Network gn;
 
-    Gobang gb(&gn);
-
-//    w = new MainWindow();
-//    w->show();
-//    scan_gobang w1;
-//    w1.show();
+    /* 创建 */
+    //Gobang gb(&gn);
 
     return a.exec();
 }
