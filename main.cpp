@@ -10,8 +10,8 @@ int main(int argc, char *argv[])
     /* 创建网络 */
     Gobang_Network gn;
 
-    /* 创建 */
-    Gobang gb(&gn);
+    MainWindow *mwin = new MainWindow(&gn);
+    mwin->show();
 
     return a.exec();
 }
