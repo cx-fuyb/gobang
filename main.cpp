@@ -11,7 +11,7 @@ int main(int argc, char *argv[])
     Gobang_Network gn;
 
     /* ´´½¨ */
-    //Gobang gb(&gn);
+    Gobang gb(&gn);
 
     return a.exec();
 }

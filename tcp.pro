@@ -30,18 +30,21 @@ SOURCES += \
     Code/net/gobang_network.cpp \
     Code/net/tcp.cpp \
     Code/ui/gobang.cpp \
-    Code/ui/scan_gobang.cpp
+    Code/ui/scan_gobang.cpp \
+    Code/ui/welcome.cpp
 
 HEADERS += \
         mainwindow.h \
     Code/net/gobang_network.h \
     Code/net/tcp.h \
     Code/ui/gobang.h \
-    Code/ui/scan_gobang.h
+    Code/ui/scan_gobang.h \
+    Code/ui/welcome.h
 
 FORMS += \
         mainwindow.ui \
-    Code/ui/scan_gobang.ui
+    Code/ui/scan_gobang.ui \
+    Code/ui/welcome.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
