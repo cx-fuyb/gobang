@@ -1,12 +1,21 @@
 #include "scan_gobang.h"
 #include "ui_scan_gobang.h"
+#include "welcome.h"
+#include "ui_welcome.h"
 
-scan_gobang::scan_gobang(QWidget *parent) :
+scan_gobang::scan_gobang(Gobang_Network *g_network, QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::scan_gobang)
 {
     ui->setupUi(this);
     paint=new QPainter;
+
+    this->g_network = g_network;
+
+    welcome *wc = new welcome();
+    wc->show();
+    connect(wc->ui->pushButton, &QPushButton::clicked, this, &scan_gobang::on_pushButton_clicked);
+
     choose_color();
     // 初始化时绑定信号槽连接
     connect(ui->pushButton, &QPushButton::clicked, this, &scan_gobang::on_pushButton_clicked);
@@ -236,6 +245,7 @@ void scan_gobang::mousePressEvent(QMouseEvent* event)
 
     /* 标记棋盘上的位置 */ 
     chess[chess_x][chess_y] = ChessStatus;
+    g_network->tellOpponent_chassxy(chess_x,chess_y,ChessStatus);
     update();
     win_or_lose();
 }

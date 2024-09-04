@@ -11,7 +11,7 @@
 
 using namespace std;
 
-#define SIZE                20
+#define SIZE                15
 #define CHASS_NUM        (SIZE+1)
 #define MIN_WIDTH   1000
 
@@ -31,7 +31,7 @@ class scan_gobang : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit scan_gobang(QWidget *parent = nullptr);
+    explicit scan_gobang(Gobang_Network *g_network,QWidget *parent = nullptr);
     ~scan_gobang();
 
 public:
@@ -64,6 +64,7 @@ public:
 
 private:
     Ui::scan_gobang *ui;
+    Gobang_Network *g_network;
     char ChessStatus = ChessNull;
     char chess[CHASS_NUM][CHASS_NUM];
     int WIDTH=40;
